@@ -6,6 +6,8 @@ const PORT = 3000;
 
 app.use(express.json());
 
+app.use(express.static('.'));
+
 app.get("/", (req, res) => {
   res.send("jobhunt tracker");
 });
