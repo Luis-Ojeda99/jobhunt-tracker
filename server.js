@@ -1,12 +1,12 @@
 const express = require("express");
-const pool = require('./db');
+const pool = require('./db/connection');
 
 const app = express();
 const PORT = 3000;
 
 app.use(express.json());
 
-app.use(express.static('.'));
+app.use(express.static('public'));
 
 app.get("/", (req, res) => {
   res.send("jobhunt tracker");
