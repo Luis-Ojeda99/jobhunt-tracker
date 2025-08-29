@@ -3,16 +3,83 @@ body {
   max-width: 800px;
   margin: 0 auto;
   padding: 20px;
+  background: #f9f9f9;
 }
 
+h1 {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+/* Buttons */
 button {
   padding: 8px 15px;
   background: #007bff;
   color: white;
   border: none;
   cursor: pointer;
+  border-radius: 4px;
+  margin-right: 5px;
+  transition: background 0.2s ease;
 }
 
 button:hover {
   background: #0056b3;
+}
+
+/* Application Form */
+#applicationForm {
+  background: #f5f5f5;
+  padding: 20px;
+  margin-bottom: 20px;
+  border-radius: 5px;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.1);
+}
+
+#applicationForm label {
+  display: block;
+  margin-top: 10px;
+  margin-bottom: 5px;
+  font-weight: bold;
+}
+
+#applicationForm input,
+#applicationForm select {
+  padding: 8px;
+  width: 100%;
+  max-width: 400px;
+  margin-bottom: 10px;
+  border: 1px solid #ddd;
+  border-radius: 3px;
+  box-sizing: border-box;
+}
+
+/* Application list entries */
+.application-entry {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px;
+  border: 1px solid #ddd;
+  margin-bottom: 10px;
+  background: white;
+  border-radius: 5px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+}
+
+.application-entry strong {
+  color: #333;
+  margin-right: 10px;
+}
+
+.status {
+  padding: 3px 8px;
+  background: #e9ecef;
+  border-radius: 3px;
+  font-size: 14px;
+  text-transform: capitalize;
+}
+
+#addBtn {
+  margin-bottom: 20px;
 }

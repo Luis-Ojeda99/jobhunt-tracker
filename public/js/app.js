@@ -1,33 +1,47 @@
-// Main application logic
-let applications = [];
-
-async function loadApplications() {
-  applications = await API.getApplications();
-  displayApplications();
-}
-
-function displayApplications() {
+document.addEventListener("DOMContentLoaded", () => {
+  const addBtn = document.getElementById("addBtn");
+  const cancelBtn = document.getElementById("cancelBtn");
+  const form = document.getElementById("applicationForm");
   const list = document.getElementById("list");
 
-  if (applications.length === 0) {
-    list.innerHTML = "<p>No applications yet</p>";
-    return;
-  }
-
-  let html = "";
-  applications.forEach((app) => {
-    html += `
-      <div class="application">
-        <strong>${app.company}</strong> - ${app.position}
-        <span class="status">${app.status}</span>
-      </div>
-    `;
+  // Show form when clicking "Add Application"
+  addBtn.addEventListener("click", () => {
+    form.style.display = "block";
+    addBtn.style.display = "none";
   });
 
-  list.innerHTML = html;
-}
+  // Hide form on cancel
+  cancelBtn.addEventListener("click", () => {
+    form.reset();
+    form.style.display = "none";
+    addBtn.style.display = "inline-block";
+  });
 
-// Initialize when page loads
-document.addEventListener("DOMContentLoaded", () => {
-  loadApplications();
+  // Handle form submission
+  form.addEventListener("submit", (e) => {
+    e.preventDefault();
+
+    const company = document.getElementById("company").value.trim();
+    const position = document.getElementById("position").value.trim();
+    const status = document.getElementById("status").value;
+
+    if (!company || !position) {
+      alert("Please fill out all fields.");
+      return;
+    }
+
+    // Create a new entry element
+    const entry = document.createElement("div");
+    entry.classList.add("application-entry");
+    entry.innerHTML = `
+      <strong>${company}</strong> — ${position} <em class="status">(${status})</em>
+    `;
+
+    list.appendChild(entry);
+
+    // Reset form and hide it
+    form.reset();
+    form.style.display = "none";
+    addBtn.style.display = "inline-block";
+  });
 });
