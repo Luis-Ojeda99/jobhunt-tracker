@@ -57,10 +57,26 @@ app.delete("/api/applications/:id", async (req, res) => {
   }
 });
 
-// Get  stats
+// update status
+app.patch("/api/applications/:id", async (req, res) => {
+  const { id } = req.params;
+  const { status } = req.body;
+
+  try {
+    const result = await pool.query(
+      "UPDATE applications SET status = $1 WHERE id = $2 RETURNING *",
+      [status, id]
+    );
+    res.json(result.rows[0]);
+  } catch (err) {
+    console.log("Update error:", err);
+    res.status(500).json({ error: "Failed to update" });
+  }
+});
+
+// Get some stats
 app.get("/api/stats", async (req, res) => {
   try {
-    // just gonna do separate queries for now
     const total = await pool.query("SELECT COUNT(*) FROM applications");
     const interviews = await pool.query(
       "SELECT COUNT(*) FROM applications WHERE status = 'interview'"

@@ -1,5 +1,5 @@
 let applications = [];
-let currentFilter = '';
+let currentFilter = "";
 
 const listEl = document.getElementById("list");
 const formEl = document.getElementById("applicationForm");
@@ -17,15 +17,14 @@ async function loadApplications() {
 
 async function loadStats() {
   const stats = await API.getStats();
-  document.getElementById('totalCount').textContent = stats.total;
-  document.getElementById('interviewCount').textContent = stats.interviews;
+  document.getElementById("totalCount").textContent = stats.total;
+  document.getElementById("interviewCount").textContent = stats.interviews;
 }
 
 function displayApplications() {
-  // filter if needed
   let toShow = applications;
   if (currentFilter) {
-    toShow = applications.filter(app => app.status === currentFilter);
+    toShow = applications.filter((app) => app.status === currentFilter);
   }
 
   if (toShow.length === 0) {
@@ -42,11 +41,28 @@ function displayApplications() {
           <strong>${app.company}</strong> — ${app.position}
           <br>
           <small>Applied: ${date}</small>
-          ${app.notes ? `<div class="notes">${app.notes}</div>` : ''}
+          ${app.notes ? `<div class="notes">${app.notes}</div>` : ""}
         </div>
         <div>
-          <span class="status ${app.status}">${app.status}</span>
-          <button class="delete-btn" onclick="deleteApplication(${app.id})">×</button>
+          <select class="status-select ${app.status}" onchange="updateStatus(${
+      app.id
+    }, this.value)">
+            <option value="applied" ${
+              app.status === "applied" ? "selected" : ""
+            }>Applied</option>
+            <option value="interview" ${
+              app.status === "interview" ? "selected" : ""
+            }>Interview</option>
+            <option value="rejected" ${
+              app.status === "rejected" ? "selected" : ""
+            }>Rejected</option>
+            <option value="offer" ${
+              app.status === "offer" ? "selected" : ""
+            }>Offer</option>
+          </select>
+          <button class="delete-btn" onclick="deleteApplication(${
+            app.id
+          })">×</button>
         </div>
       </div>
     `;
@@ -102,13 +118,25 @@ async function deleteApplication(id) {
   }
 }
 
+async function updateStatus(id, newStatus) {
+  try {
+    await API.updateStatus(id, newStatus);
+    // reload everything
+    loadApplications();
+    loadStats();
+  } catch (error) {
+    alert("Error updating status");
+  }
+}
+
 function filterApplications() {
-  currentFilter = document.getElementById('filterStatus').value;
+  currentFilter = document.getElementById("filterStatus").value;
   displayApplications();
 }
 
-// Make deleteApplication available globally
+// globals for onclick
 window.deleteApplication = deleteApplication;
+window.updateStatus = updateStatus;
 
 // Event listeners
 document.addEventListener("DOMContentLoaded", () => {
@@ -118,7 +146,7 @@ document.addEventListener("DOMContentLoaded", () => {
   addBtn.addEventListener("click", showForm);
   cancelBtn.addEventListener("click", hideForm);
   formEl.addEventListener("submit", saveApplication);
-  
-  // filter change
-  document.getElementById('filterStatus').addEventListener('change', filterApplications);
+  document
+    .getElementById("filterStatus")
+    .addEventListener("change", filterApplications);
 });

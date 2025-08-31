@@ -24,6 +24,7 @@ h1 {
   color: #0066cc;
 }
 
+/* Buttons */
 button {
   padding: 8px 15px;
   background: #007bff;
@@ -48,6 +49,7 @@ button:hover {
   background: #c82333;
 }
 
+/* Form */
 #applicationForm {
   background: white;
   padding: 20px;
@@ -77,6 +79,14 @@ button:hover {
   font-family: inherit;
 }
 
+#filterStatus {
+  padding: 8px;
+  margin-bottom: 15px;
+  border: 1px solid #ddd;
+  border-radius: 3px;
+}
+
+/* Application entries */
 .application-entry {
   display: flex;
   justify-content: space-between;
@@ -92,30 +102,32 @@ button:hover {
   color: #333;
 }
 
-.status {
+.status-select {
   padding: 3px 8px;
+  border: none;
   border-radius: 3px;
   font-size: 14px;
-  text-transform: capitalize;
+  cursor: pointer;
   margin-right: 10px;
 }
 
-.status.applied {
+/* status colors */
+.status-select.applied {
   background: #e3f2fd;
   color: #1976d2;
 }
 
-.status.interview {
+.status-select.interview {
   background: #fff9c4;
   color: #f57c00;
 }
 
-.status.rejected {
+.status-select.rejected {
   background: #ffebee;
   color: #c62828;
 }
 
-.status.offer {
+.status-select.offer {
   background: #e8f5e9;
   color: #2e7d32;
 }
