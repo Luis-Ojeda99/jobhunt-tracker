@@ -1,4 +1,5 @@
 let applications = [];
+let currentFilter = '';
 
 const listEl = document.getElementById("list");
 const formEl = document.getElementById("applicationForm");
@@ -16,19 +17,24 @@ async function loadApplications() {
 
 async function loadStats() {
   const stats = await API.getStats();
-  // update the numbers
-  document.getElementById("totalCount").textContent = stats.total;
-  document.getElementById("interviewCount").textContent = stats.interviews;
+  document.getElementById('totalCount').textContent = stats.total;
+  document.getElementById('interviewCount').textContent = stats.interviews;
 }
 
 function displayApplications() {
-  if (applications.length === 0) {
-    listEl.innerHTML = "<p>No applications yet</p>";
+  // filter if needed
+  let toShow = applications;
+  if (currentFilter) {
+    toShow = applications.filter(app => app.status === currentFilter);
+  }
+
+  if (toShow.length === 0) {
+    listEl.innerHTML = "<p>No applications</p>";
     return;
   }
 
   let html = "";
-  applications.forEach((app) => {
+  toShow.forEach((app) => {
     const date = new Date(app.date_applied).toLocaleDateString();
     html += `
       <div class="application-entry">
@@ -36,13 +42,11 @@ function displayApplications() {
           <strong>${app.company}</strong> — ${app.position}
           <br>
           <small>Applied: ${date}</small>
-          ${app.notes ? `<div class="notes">${app.notes}</div>` : ""}
+          ${app.notes ? `<div class="notes">${app.notes}</div>` : ''}
         </div>
         <div>
           <span class="status ${app.status}">${app.status}</span>
-          <button class="delete-btn" onclick="deleteApplication(${
-            app.id
-          })">×</button>
+          <button class="delete-btn" onclick="deleteApplication(${app.id})">×</button>
         </div>
       </div>
     `;
@@ -80,7 +84,7 @@ async function saveApplication(e) {
     await API.createApplication({ company, position, status, notes });
     hideForm();
     loadApplications();
-    loadStats(); 
+    loadStats();
   } catch (error) {
     alert("Error saving application");
   }
@@ -98,6 +102,11 @@ async function deleteApplication(id) {
   }
 }
 
+function filterApplications() {
+  currentFilter = document.getElementById('filterStatus').value;
+  displayApplications();
+}
+
 // Make deleteApplication available globally
 window.deleteApplication = deleteApplication;
 
@@ -109,4 +118,7 @@ document.addEventListener("DOMContentLoaded", () => {
   addBtn.addEventListener("click", showForm);
   cancelBtn.addEventListener("click", hideForm);
   formEl.addEventListener("submit", saveApplication);
+  
+  // filter change
+  document.getElementById('filterStatus').addEventListener('change', filterApplications);
 });
