@@ -26,7 +26,7 @@ app.get("/api/applications", async (req, res) => {
 
 // Create new application
 app.post("/api/applications", async (req, res) => {
-  const { company, position, status } = req.body;
+  const { company, position, status, notes } = req.body;
 
   if (!company || !position) {
     return res.status(400).json({ error: "Company and position required" });
@@ -34,8 +34,8 @@ app.post("/api/applications", async (req, res) => {
 
   try {
     const result = await pool.query(
-      "INSERT INTO applications (company, position, status) VALUES ($1, $2, $3) RETURNING *",
-      [company, position, status || "applied"]
+      "INSERT INTO applications (company, position, status, notes) VALUES ($1, $2, $3, $4) RETURNING *",
+      [company, position, status || "applied", notes || null]
     );
     res.json(result.rows[0]);
   } catch (err) {

@@ -96,3 +96,22 @@ button:hover {
 #list {
   margin-top: 20px;
 }
+
+#applicationForm textarea {
+  padding: 8px;
+  width: 100%;
+  max-width: 400px;
+  margin-bottom: 10px;
+  border: 1px solid #ddd;
+  border-radius: 3px;
+  box-sizing: border-box;
+  font-family: inherit;
+  resize: vertical;
+}
+
+.notes {
+  margin-top: 8px;
+  color: #666;
+  font-size: 14px;
+  line-height: 1.4;
+}

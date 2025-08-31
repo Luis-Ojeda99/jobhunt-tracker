@@ -14,6 +14,28 @@ async function loadApplications() {
   }
 }
 
+async function saveApplication(e) {
+  e.preventDefault();
+
+  const company = document.getElementById("company").value.trim();
+  const position = document.getElementById("position").value.trim();
+  const status = document.getElementById("status").value;
+  const notes = document.getElementById("notes").value.trim();
+
+  if (!company || !position) {
+    alert("Please fill in company and position");
+    return;
+  }
+
+  try {
+    await API.createApplication({ company, position, status, notes });
+    hideForm();
+    loadApplications();
+  } catch (error) {
+    alert("Error saving application");
+  }
+}
+
 function displayApplications() {
   if (applications.length === 0) {
     listEl.innerHTML = "<p>No applications yet</p>";
@@ -29,10 +51,13 @@ function displayApplications() {
           <strong>${app.company}</strong> — ${app.position}
           <br>
           <small>Applied: ${date}</small>
+          ${app.notes ? `<div class="notes">${app.notes}</div>` : ""}
         </div>
         <div>
           <span class="status">${app.status}</span>
-          <button class="delete-btn" onclick="deleteApplication(${app.id})">×</button>
+          <button class="delete-btn" onclick="deleteApplication(${
+            app.id
+          })">×</button>
         </div>
       </div>
     `;
