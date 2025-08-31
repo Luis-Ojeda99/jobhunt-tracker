@@ -14,26 +14,11 @@ async function loadApplications() {
   }
 }
 
-async function saveApplication(e) {
-  e.preventDefault();
-
-  const company = document.getElementById("company").value.trim();
-  const position = document.getElementById("position").value.trim();
-  const status = document.getElementById("status").value;
-  const notes = document.getElementById("notes").value.trim();
-
-  if (!company || !position) {
-    alert("Please fill in company and position");
-    return;
-  }
-
-  try {
-    await API.createApplication({ company, position, status, notes });
-    hideForm();
-    loadApplications();
-  } catch (error) {
-    alert("Error saving application");
-  }
+async function loadStats() {
+  const stats = await API.getStats();
+  // update the numbers
+  document.getElementById("totalCount").textContent = stats.total;
+  document.getElementById("interviewCount").textContent = stats.interviews;
 }
 
 function displayApplications() {
@@ -54,7 +39,7 @@ function displayApplications() {
           ${app.notes ? `<div class="notes">${app.notes}</div>` : ""}
         </div>
         <div>
-          <span class="status">${app.status}</span>
+          <span class="status ${app.status}">${app.status}</span>
           <button class="delete-btn" onclick="deleteApplication(${
             app.id
           })">×</button>
@@ -84,6 +69,7 @@ async function saveApplication(e) {
   const company = document.getElementById("company").value.trim();
   const position = document.getElementById("position").value.trim();
   const status = document.getElementById("status").value;
+  const notes = document.getElementById("notes").value.trim();
 
   if (!company || !position) {
     alert("Please fill in company and position");
@@ -91,9 +77,10 @@ async function saveApplication(e) {
   }
 
   try {
-    await API.createApplication({ company, position, status });
+    await API.createApplication({ company, position, status, notes });
     hideForm();
     loadApplications();
+    loadStats(); 
   } catch (error) {
     alert("Error saving application");
   }
@@ -105,6 +92,7 @@ async function deleteApplication(id) {
   try {
     await API.deleteApplication(id);
     loadApplications();
+    loadStats();
   } catch (error) {
     alert("Error deleting application");
   }
@@ -116,6 +104,7 @@ window.deleteApplication = deleteApplication;
 // Event listeners
 document.addEventListener("DOMContentLoaded", () => {
   loadApplications();
+  loadStats();
 
   addBtn.addEventListener("click", showForm);
   cancelBtn.addEventListener("click", hideForm);

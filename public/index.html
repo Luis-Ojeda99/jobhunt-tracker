@@ -9,6 +9,11 @@
   <body>
     <h1>My Job Applications</h1>
 
+    <div id="stats">
+      Total: <span id="totalCount">-</span> | Interviews:
+      <span id="interviewCount">-</span>
+    </div>
+
     <form id="applicationForm" style="display: none">
       <label for="company">Company</label>
       <input
@@ -41,8 +46,9 @@
         id="notes"
         name="notes"
         rows="3"
-        placeholder="notes"
+        placeholder="Notes"
       ></textarea>
+
       <button type="submit" id="saveBtn">Save</button>
       <button type="button" id="cancelBtn">Cancel</button>
     </form>

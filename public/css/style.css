@@ -11,7 +11,19 @@ h1 {
   margin-bottom: 30px;
 }
 
-/* Buttons */
+#stats {
+  padding: 10px;
+  background: white;
+  border: 1px solid #ddd;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+#stats span {
+  font-weight: bold;
+  color: #0066cc;
+}
+
 button {
   padding: 8px 15px;
   background: #007bff;
@@ -36,7 +48,6 @@ button:hover {
   background: #c82333;
 }
 
-/* Form */
 #applicationForm {
   background: white;
   padding: 20px;
@@ -54,7 +65,8 @@ button:hover {
 }
 
 #applicationForm input,
-#applicationForm select {
+#applicationForm select,
+#applicationForm textarea {
   padding: 8px;
   width: 100%;
   max-width: 400px;
@@ -62,9 +74,9 @@ button:hover {
   border: 1px solid #ddd;
   border-radius: 3px;
   box-sizing: border-box;
+  font-family: inherit;
 }
 
-/* Application entries */
 .application-entry {
   display: flex;
   justify-content: space-between;
@@ -82,11 +94,36 @@ button:hover {
 
 .status {
   padding: 3px 8px;
-  background: #e9ecef;
   border-radius: 3px;
   font-size: 14px;
   text-transform: capitalize;
   margin-right: 10px;
+}
+
+.status.applied {
+  background: #e3f2fd;
+  color: #1976d2;
+}
+
+.status.interview {
+  background: #fff9c4;
+  color: #f57c00;
+}
+
+.status.rejected {
+  background: #ffebee;
+  color: #c62828;
+}
+
+.status.offer {
+  background: #e8f5e9;
+  color: #2e7d32;
+}
+
+.notes {
+  margin-top: 8px;
+  color: #666;
+  font-size: 14px;
 }
 
 #addBtn {
@@ -95,23 +132,4 @@ button:hover {
 
 #list {
   margin-top: 20px;
-}
-
-#applicationForm textarea {
-  padding: 8px;
-  width: 100%;
-  max-width: 400px;
-  margin-bottom: 10px;
-  border: 1px solid #ddd;
-  border-radius: 3px;
-  box-sizing: border-box;
-  font-family: inherit;
-  resize: vertical;
-}
-
-.notes {
-  margin-top: 8px;
-  color: #666;
-  font-size: 14px;
-  line-height: 1.4;
 }

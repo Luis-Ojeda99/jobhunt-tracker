@@ -57,6 +57,25 @@ app.delete("/api/applications/:id", async (req, res) => {
   }
 });
 
+// Get  stats
+app.get("/api/stats", async (req, res) => {
+  try {
+    // just gonna do separate queries for now
+    const total = await pool.query("SELECT COUNT(*) FROM applications");
+    const interviews = await pool.query(
+      "SELECT COUNT(*) FROM applications WHERE status = 'interview'"
+    );
+
+    res.json({
+      total: total.rows[0].count,
+      interviews: interviews.rows[0].count,
+    });
+  } catch (err) {
+    console.log("Stats error:", err);
+    res.status(500).json({ error: "Failed to get stats" });
+  }
+});
+
 app.listen(PORT, () => {
   console.log(`Running on port ${PORT}`);
 });

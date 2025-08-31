@@ -35,4 +35,14 @@ const API = {
 
     return await response.json();
   },
+
+  async getStats() {
+    try {
+      const response = await fetch("/api/stats");
+      return await response.json();
+    } catch (error) {
+      console.error("Error getting stats:", error);
+      return { total: 0, interviews: 0 };
+    }
+  },
 };
