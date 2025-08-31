@@ -1,5 +1,6 @@
 let applications = [];
 let currentFilter = "";
+let searchTerm = "";
 
 const listEl = document.getElementById("list");
 const formEl = document.getElementById("applicationForm");
@@ -23,12 +24,23 @@ async function loadStats() {
 
 function displayApplications() {
   let toShow = applications;
+
+  // filter by status
   if (currentFilter) {
-    toShow = applications.filter((app) => app.status === currentFilter);
+    toShow = toShow.filter((app) => app.status === currentFilter);
+  }
+
+  // filter by search
+  if (searchTerm) {
+    toShow = toShow.filter(
+      (app) =>
+        app.company.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        app.position.toLowerCase().includes(searchTerm.toLowerCase())
+    );
   }
 
   if (toShow.length === 0) {
-    listEl.innerHTML = "<p>No applications</p>";
+    listEl.innerHTML = "<p>No applications found</p>";
     return;
   }
 
@@ -121,7 +133,6 @@ async function deleteApplication(id) {
 async function updateStatus(id, newStatus) {
   try {
     await API.updateStatus(id, newStatus);
-    // reload everything
     loadApplications();
     loadStats();
   } catch (error) {
@@ -134,7 +145,12 @@ function filterApplications() {
   displayApplications();
 }
 
-// globals for onclick
+function searchApplications() {
+  searchTerm = document.getElementById("searchBox").value;
+  displayApplications();
+}
+
+// globals
 window.deleteApplication = deleteApplication;
 window.updateStatus = updateStatus;
 
@@ -149,4 +165,7 @@ document.addEventListener("DOMContentLoaded", () => {
   document
     .getElementById("filterStatus")
     .addEventListener("change", filterApplications);
+  document
+    .getElementById("searchBox")
+    .addEventListener("input", searchApplications);
 });
