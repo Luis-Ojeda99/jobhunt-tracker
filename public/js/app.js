@@ -1,6 +1,6 @@
 let applications = [];
-let currentFilter = "";
-let searchTerm = "";
+let currentFilter = '';
+let searchTerm = '';
 
 const listEl = document.getElementById("list");
 const formEl = document.getElementById("applicationForm");
@@ -18,24 +18,24 @@ async function loadApplications() {
 
 async function loadStats() {
   const stats = await API.getStats();
-  document.getElementById("totalCount").textContent = stats.total;
-  document.getElementById("interviewCount").textContent = stats.interviews;
+  document.getElementById('totalCount').textContent = stats.total;
+  document.getElementById('interviewCount').textContent = stats.interviews;
+  document.getElementById('rejectedCount').textContent = stats.rejected || 0;
 }
 
 function displayApplications() {
   let toShow = applications;
-
+  
   // filter by status
   if (currentFilter) {
-    toShow = toShow.filter((app) => app.status === currentFilter);
+    toShow = toShow.filter(app => app.status === currentFilter);
   }
-
+  
   // filter by search
   if (searchTerm) {
-    toShow = toShow.filter(
-      (app) =>
-        app.company.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        app.position.toLowerCase().includes(searchTerm.toLowerCase())
+    toShow = toShow.filter(app => 
+      app.company.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      app.position.toLowerCase().includes(searchTerm.toLowerCase())
     );
   }
 
@@ -53,28 +53,16 @@ function displayApplications() {
           <strong>${app.company}</strong> — ${app.position}
           <br>
           <small>Applied: ${date}</small>
-          ${app.notes ? `<div class="notes">${app.notes}</div>` : ""}
+          ${app.notes ? `<div class="notes">${app.notes}</div>` : ''}
         </div>
         <div>
-          <select class="status-select ${app.status}" onchange="updateStatus(${
-      app.id
-    }, this.value)">
-            <option value="applied" ${
-              app.status === "applied" ? "selected" : ""
-            }>Applied</option>
-            <option value="interview" ${
-              app.status === "interview" ? "selected" : ""
-            }>Interview</option>
-            <option value="rejected" ${
-              app.status === "rejected" ? "selected" : ""
-            }>Rejected</option>
-            <option value="offer" ${
-              app.status === "offer" ? "selected" : ""
-            }>Offer</option>
+          <select class="status-select ${app.status}" onchange="updateStatus(${app.id}, this.value)">
+            <option value="applied" ${app.status === 'applied' ? 'selected' : ''}>Applied</option>
+            <option value="interview" ${app.status === 'interview' ? 'selected' : ''}>Interview</option>
+            <option value="rejected" ${app.status === 'rejected' ? 'selected' : ''}>Rejected</option>
+            <option value="offer" ${app.status === 'offer' ? 'selected' : ''}>Offer</option>
           </select>
-          <button class="delete-btn" onclick="deleteApplication(${
-            app.id
-          })">×</button>
+          <button class="delete-btn" onclick="deleteApplication(${app.id})">×</button>
         </div>
       </div>
     `;
@@ -110,13 +98,7 @@ async function saveApplication(e) {
   }
 
   try {
-    await API.createApplication({
-      company,
-      position,
-      status,
-      notes,
-      dateApplied,
-    });
+    await API.createApplication({ company, position, status, notes, dateApplied });
     hideForm();
     loadApplications();
     loadStats();
@@ -148,13 +130,36 @@ async function updateStatus(id, newStatus) {
 }
 
 function filterApplications() {
-  currentFilter = document.getElementById("filterStatus").value;
+  currentFilter = document.getElementById('filterStatus').value;
   displayApplications();
 }
 
 function searchApplications() {
-  searchTerm = document.getElementById("searchBox").value;
+  searchTerm = document.getElementById('searchBox').value;
   displayApplications();
+}
+
+function exportData() {
+  if (applications.length === 0) {
+    alert('Nothing to export');
+    return;
+  }
+  
+  let csv = 'Company,Position,Status,Date,Notes\n';
+  applications.forEach(app => {
+    // wrap in quotes if has comma
+    const company = app.company.includes(',') ? `"${app.company}"` : app.company;
+    const position = app.position.includes(',') ? `"${app.position}"` : app.position;
+    const notes = app.notes ? `"${app.notes}"` : '';
+    csv += `${company},${position},${app.status},${app.date_applied},${notes}\n`;
+  });
+  
+  const blob = new Blob([csv], { type: 'text/csv' });
+  const url = window.URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = 'job_applications.csv';
+  a.click();
 }
 
 // globals
@@ -169,10 +174,7 @@ document.addEventListener("DOMContentLoaded", () => {
   addBtn.addEventListener("click", showForm);
   cancelBtn.addEventListener("click", hideForm);
   formEl.addEventListener("submit", saveApplication);
-  document
-    .getElementById("filterStatus")
-    .addEventListener("change", filterApplications);
-  document
-    .getElementById("searchBox")
-    .addEventListener("input", searchApplications);
+  document.getElementById('filterStatus').addEventListener('change', filterApplications);
+  document.getElementById('searchBox').addEventListener('input', searchApplications);
+  document.getElementById('exportBtn').addEventListener('click', exportData);
 });

@@ -8,5 +8,6 @@ CREATE TABLE applications (
   position VARCHAR(255) NOT NULL,
   status VARCHAR(50) DEFAULT 'applied',
   date_applied DATE DEFAULT CURRENT_DATE,
-  notes TEXT
+  notes TEXT,
+  interview_date DATE
 );

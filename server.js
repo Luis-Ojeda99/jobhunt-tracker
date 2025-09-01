@@ -51,7 +51,10 @@ app.delete("/api/applications/:id", async (req, res) => {
   const { id } = req.params;
 
   try {
-    await pool.query("DELETE FROM applications WHERE id = $1", [id]);
+    await pool.query(
+      "DELETE FROM applications WHERE id = $1", 
+      [id]
+    );
     res.json({ success: true });
   } catch (err) {
     console.log("Delete error:", err);
@@ -79,19 +82,31 @@ app.patch("/api/applications/:id", async (req, res) => {
 // Get some stats
 app.get("/api/stats", async (req, res) => {
   try {
-    const total = await pool.query("SELECT COUNT(*) FROM applications");
+    const total = await pool.query(
+      "SELECT COUNT(*) FROM applications"
+    );
     const interviews = await pool.query(
       "SELECT COUNT(*) FROM applications WHERE status = 'interview'"
+    );
+    const rejected = await pool.query(
+      "SELECT COUNT(*) FROM applications WHERE status = 'rejected'"
     );
 
     res.json({
       total: total.rows[0].count,
       interviews: interviews.rows[0].count,
+      rejected: rejected.rows[0].count,
     });
   } catch (err) {
     console.log("Stats error:", err);
     res.status(500).json({ error: "Failed to get stats" });
   }
+});
+
+// catch errors
+app.use((err, req, res, next) => {
+  console.error(err.stack);
+  res.status(500).send("Something broke");
 });
 
 app.listen(PORT, () => {

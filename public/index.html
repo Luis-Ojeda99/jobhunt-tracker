@@ -11,7 +11,8 @@
 
     <div id="stats">
       Total: <span id="totalCount">-</span> | Interviews:
-      <span id="interviewCount">-</span>
+      <span id="interviewCount">-</span> | Rejected:
+      <span id="rejectedCount">-</span>
     </div>
 
     <div>
@@ -23,6 +24,7 @@
         <option value="rejected">Rejected</option>
         <option value="offer">Offer</option>
       </select>
+      <button id="exportBtn">Export</button>
     </div>
 
     <form id="applicationForm" style="display: none">
@@ -44,7 +46,7 @@
         required
       />
 
-      <label for="dateApplied">Date Applied</label>
+      <label for="dateApplied">Date</label>
       <input type="date" id="dateApplied" name="dateApplied" />
 
       <label for="status">Status</label>

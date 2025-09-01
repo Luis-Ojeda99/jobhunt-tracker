@@ -154,3 +154,16 @@ button:hover {
   border-radius: 3px;
   width: 200px;
 }
+
+.application-entry:hover {
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+#exportBtn {
+  float: right;
+  background: #28a745;
+}
+
+#exportBtn:hover {
+  background: #218838;
+}
