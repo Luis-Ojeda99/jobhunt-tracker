@@ -10,6 +10,17 @@ A web application for keeping track of job applications. It uses Node.js, Expres
 ## Tech Stack
 - Backend: Node.js + Express
 - Database: PostgreSQL
+A web application for keeping track of job applications. It uses Node.js, Express, and PostgreSQL to provide a simple interface for logging applications, updating statuses, and managing progress throughout the job search process.
+
+## Features
+- Add new job applications with company, position, and status
+- Update or remove entries
+- Track progress (Applied, Interview, Offer, Rejected)
+- Full CRUD functionality with PostgreSQL
+
+## Tech Stack
+- Backend: Node.js + Express
+- Database: PostgreSQL
 
 ## Setup
 
