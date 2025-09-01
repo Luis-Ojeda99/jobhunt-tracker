@@ -24,7 +24,7 @@
         <option value="rejected">Rejected</option>
         <option value="offer">Offer</option>
       </select>
-      <button id="exportBtn">Export</button>
+      <button id="exportBtn">Export to CVS</button>
     </div>
 
     <form id="applicationForm" style="display: none">
@@ -65,8 +65,10 @@
         placeholder="Notes..."
       ></textarea>
 
-      <button type="submit" id="saveBtn">Save</button>
-      <button type="button" id="cancelBtn">Cancel</button>
+      <div class="form-buttons">
+        <button type="button" id="cancelBtn">Cancel</button>
+        <button type="submit" id="saveBtn">Save</button>
+      </div>
     </form>
 
     <button id="addBtn">Add Application</button>

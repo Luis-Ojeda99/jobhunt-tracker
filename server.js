@@ -91,7 +91,6 @@ app.get("/api/stats", async (req, res) => {
     const rejected = await pool.query(
       "SELECT COUNT(*) FROM applications WHERE status = 'rejected'"
     );
-
     res.json({
       total: total.rows[0].count,
       interviews: interviews.rows[0].count,

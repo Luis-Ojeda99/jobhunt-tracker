@@ -9,6 +9,7 @@ body {
 h1 {
   color: #333;
   margin-bottom: 30px;
+  text-align: center;
 }
 
 #stats {
@@ -56,6 +57,15 @@ button:hover {
   margin-bottom: 20px;
   border-radius: 5px;
   border: 1px solid #ddd;
+}
+
+#applicationForm .form-buttons {
+  margin-top: 15px;
+  text-align: right;
+}
+
+#applicationForm .form-buttons button {
+  margin-left: 10px;
 }
 
 #applicationForm label {
