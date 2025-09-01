@@ -26,16 +26,18 @@ app.get("/api/applications", async (req, res) => {
 
 // Create new application
 app.post("/api/applications", async (req, res) => {
-  const { company, position, status, notes } = req.body;
+  const { company, position, status, notes, dateApplied } = req.body;
 
   if (!company || !position) {
     return res.status(400).json({ error: "Company and position required" });
   }
 
   try {
+    const date = dateApplied || new Date().toISOString().split("T")[0];
+
     const result = await pool.query(
-      "INSERT INTO applications (company, position, status, notes) VALUES ($1, $2, $3, $4) RETURNING *",
-      [company, position, status || "applied", notes || null]
+      "INSERT INTO applications (company, position, status, notes, date_applied) VALUES ($1, $2, $3, $4, $5) RETURNING *",
+      [company, position, status || "applied", notes || null, date]
     );
     res.json(result.rows[0]);
   } catch (err) {

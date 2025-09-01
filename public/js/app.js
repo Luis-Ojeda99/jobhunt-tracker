@@ -102,6 +102,7 @@ async function saveApplication(e) {
   const position = document.getElementById("position").value.trim();
   const status = document.getElementById("status").value;
   const notes = document.getElementById("notes").value.trim();
+  const dateApplied = document.getElementById("dateApplied").value;
 
   if (!company || !position) {
     alert("Please fill in company and position");
@@ -109,7 +110,13 @@ async function saveApplication(e) {
   }
 
   try {
-    await API.createApplication({ company, position, status, notes });
+    await API.createApplication({
+      company,
+      position,
+      status,
+      notes,
+      dateApplied,
+    });
     hideForm();
     loadApplications();
     loadStats();
