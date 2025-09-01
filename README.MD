@@ -12,12 +12,15 @@ A web application for keeping track of job applications. It uses Node.js, Expres
 - Database: PostgreSQL
 
 ## Setup
-###Prerequisites
+
+### Prerequisites
 - Node.js
 - PostgreSQL
+
 ### Installation
 1. Clone the repository
-```git clone https://github.com/Luis-Ojeda99/jobhunt-tracker.git
+```bash
+git clone https://github.com/Luis-Ojeda99/jobhunt-tracker.git  
 cd jobhunt-tracker ```
 
 2. Install dependecies:
@@ -28,6 +31,7 @@ cd jobhunt-tracker ```
 
 4. Run schema: 
 ```psql -d jobhunt_tracker -f db/schema.sql ```
+
 5. Add your database password to a .env file (example):
 ```DB_PASSWORD=your_postgres_password ```
 
