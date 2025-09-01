@@ -21,7 +21,8 @@ A web application for keeping track of job applications. It uses Node.js, Expres
 1. Clone the repository
 ```bash
 git clone https://github.com/Luis-Ojeda99/jobhunt-tracker.git  
-cd jobhunt-tracker ```
+cd jobhunt-tracker 
+```
 
 2. Install dependecies:
 ```npm install ```
