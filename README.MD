@@ -25,18 +25,28 @@ cd jobhunt-tracker
 ```
 
 2. Install dependecies:
-```npm install ```
+```bash
+npm install 
+```
 
 3. Create the database:
-```createdb jobhunt_tracker ```  
+```bash
+createdb jobhunt_tracker
+```  
 
 4. Run schema: 
-```psql -d jobhunt_tracker -f db/schema.sql ```
+```bash
+psql -d jobhunt_tracker -f db/schema.sql
+```
 
 5. Add your database password to a .env file (example):
-```DB_PASSWORD=your_postgres_password ```
+```bash
+DB_PASSWORD=your_postgres_password 
+```
 
 6. Start the development server:
-```npm run dev ```
+```bash
+npm run dev 
+```
 
 7.Open your browser at http://localhost:3000 to see the app
